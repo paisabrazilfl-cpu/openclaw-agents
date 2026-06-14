@@ -20,7 +20,15 @@ export type Agent = {
   emoji: string;
   role: string;
   // Tools this agent is encouraged to reach for (the model still decides).
-  tools: ("web_search" | "web_crawl" | "memory_search" | "memory_save" | "run_code")[];
+  tools: (
+    | "web_search"
+    | "web_crawl"
+    | "memory_search"
+    | "memory_save"
+    | "run_code"
+    | "github"
+    | "composio"
+  )[];
   system: string;
 };
 
@@ -36,7 +44,7 @@ export const AGENTS: Record<AgentId, Agent> = {
     name: "OpenClaw",
     emoji: "🐾",
     role: "System orchestrator · audit · final arbiter",
-    tools: ["web_search", "memory_search", "memory_save"],
+    tools: ["web_search", "memory_search", "memory_save", "github", "composio"],
     system: `${SHARED}
 
 You are the **Main** agent — the system orchestrator. You audit process and
@@ -117,7 +125,7 @@ a citation — only cite sources you actually retrieved, with links.`,
     name: "Coder",
     emoji: "💻",
     role: "Algorithm implementation · experiments · code execution",
-    tools: ["run_code", "web_search", "memory_search"],
+    tools: ["run_code", "web_search", "memory_search", "github"],
     system: `${SHARED}
 
 You are the **Coder** — research engineer. Implement algorithms cleanly and
@@ -158,7 +166,7 @@ past real reviewers.`,
     name: "Scout",
     emoji: "📰",
     role: "Daily digest · trend monitoring · competitive intel",
-    tools: ["web_search", "web_crawl", "memory_save"],
+    tools: ["web_search", "web_crawl", "memory_save", "github"],
     system: `${SHARED}
 
 You are the **Scout** — research intelligence. Surface recent, relevant papers

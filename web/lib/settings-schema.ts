@@ -75,10 +75,40 @@ export const SETTINGS_GROUPS: Group[] = [
     id: "observability",
     title: "Observability",
     emoji: "📈",
-    description: "Optional. If set, LLM traffic is routed through Helicone.",
+    description: "Optional. Helicone proxies LLM traffic; LangSmith traces every chat run.",
     fields: [
       { name: "HELICONE_API_KEY", label: "Helicone", secret: true, placeholder: "sk-helicone-…" },
       { name: "LANGCHAIN_API_KEY", label: "LangSmith / LangChain", secret: true, placeholder: "lsv2_…" },
+      { name: "LANGCHAIN_PROJECT", label: "LangSmith project", placeholder: "openclaw-console" },
+    ],
+  },
+  {
+    id: "developer",
+    title: "Developer (GitHub)",
+    emoji: "🐙",
+    description: "Lets agents read repos, files, issues, and search code.",
+    fields: [
+      { name: "GITHUB_TOKEN", label: "GitHub token", secret: true, placeholder: "ghp_… / github_pat_…" },
+    ],
+  },
+  {
+    id: "automation",
+    title: "Automation & Events",
+    emoji: "🤝",
+    description: "Composio gives agents external app actions; Inngest receives a completion event per chat.",
+    fields: [
+      { name: "COMPOSIO_API_KEY", label: "Composio", secret: true, placeholder: "ak_…" },
+      { name: "INNGEST_EVENT_KEY", label: "Inngest event key", secret: true },
+    ],
+  },
+  {
+    id: "network",
+    title: "Network (Proxy)",
+    emoji: "🛰️",
+    description: "Route crawl traffic through the Massive residential proxy network.",
+    fields: [
+      { name: "MASSIVE_API_KEY", label: "Massive API key", secret: true },
+      { name: "MASSIVE_PROXY_URL", label: "Proxy URL", placeholder: "http://user:pass@network.joinmassive.com:65535" },
     ],
   },
   {
@@ -89,18 +119,6 @@ export const SETTINGS_GROUPS: Group[] = [
       { name: "DEFAULT_MODEL", label: "Default model", placeholder: "openai/gpt-4o-mini" },
       { name: "MAX_TOKENS", label: "Max output tokens", placeholder: "2048" },
       { name: "APP_NAME", label: "App name", placeholder: "OpenClaw Console" },
-    ],
-  },
-  {
-    id: "other",
-    title: "Other Services",
-    emoji: "🧩",
-    description: "Reserved for future wiring.",
-    fields: [
-      { name: "COMPOSIO_API_KEY", label: "Composio", secret: true },
-      { name: "MASSIVE_API_KEY", label: "Massive", secret: true },
-      { name: "INNGEST_EVENT_KEY", label: "Inngest event key", secret: true },
-      { name: "GITHUB_TOKEN", label: "GitHub token", secret: true, placeholder: "ghp_…" },
     ],
   },
 ];

@@ -20,6 +20,7 @@ export const env = {
   // ── Observability (optional LLM proxy) ─────────────────────────
   get helicone() { return s("HELICONE_API_KEY"); },
   get langchain() { return s("LANGCHAIN_API_KEY"); },
+  get langchainProject() { return s("LANGCHAIN_PROJECT") || "openclaw-console"; },
 
   // ── Embeddings + vector memory ─────────────────────────────────
   get embeddings() { return s("OPENAI_EMBEDDINGS_API_KEY") || s("OPENAI_API_KEY"); },
@@ -40,11 +41,15 @@ export const env = {
   // ── Code execution ─────────────────────────────────────────────
   get e2b() { return s("E2B_API_KEY"); },
 
-  // ── Misc / future ──────────────────────────────────────────────
+  // ── Automation / events / dev ──────────────────────────────────
   get composio() { return s("COMPOSIO_API_KEY"); },
-  get massive() { return s("MASSIVE_API_KEY"); },
   get inngestEventKey() { return s("INNGEST_EVENT_KEY"); },
   get github() { return s("GITHUB_TOKEN"); },
+
+  // ── Outbound proxy (Massive residential network) ───────────────
+  get massive() { return s("MASSIVE_API_KEY"); },
+  // Full proxy URL, e.g. http://user:pass@network.joinmassive.com:65535
+  get massiveProxyUrl() { return s("MASSIVE_PROXY_URL"); },
 
   // ── Defaults ───────────────────────────────────────────────────
   get defaultModel() { return s("DEFAULT_MODEL") || "openai/gpt-4o-mini"; },
@@ -58,6 +63,10 @@ export type IntegrationStatus = {
   crawl: boolean;
   memory: boolean;
   exec: boolean;
+  github: boolean;
+  composio: boolean;
+  events: boolean;
+  proxy: boolean;
   providers: { openrouter: boolean; openai: boolean; gemini: boolean; nvidia: boolean };
   observability: { helicone: boolean; langchain: boolean };
 };
@@ -70,6 +79,10 @@ export function integrationStatus(): IntegrationStatus {
     crawl: Boolean(env.freecrawl),
     memory: Boolean(env.pinecone && env.pineconeIndexHost && env.embeddings),
     exec: Boolean(env.e2b),
+    github: Boolean(env.github),
+    composio: Boolean(env.composio),
+    events: Boolean(env.inngestEventKey),
+    proxy: Boolean(env.massiveProxyUrl),
     providers: {
       openrouter: Boolean(env.openrouter),
       openai: Boolean(env.openai),

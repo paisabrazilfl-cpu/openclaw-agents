@@ -18,8 +18,19 @@ and tools.
 | **Web crawl** (read full pages) | FreeCrawl (Firecrawl-compatible) | `FREECRAWL_API_KEY` |
 | **Vector memory** (save/recall) | Pinecone + OpenAI embeddings | `PINECONE_API_KEY` + `PINECONE_INDEX_HOST` |
 | **Code execution** (Coder) | E2B sandbox | `E2B_API_KEY` |
-| **Observability** (optional) | Helicone proxy | `HELICONE_API_KEY` |
+| **GitHub tool** (repos/files/issues/code) | GitHub REST API | `GITHUB_TOKEN` |
+| **App integrations** (Gmail, Slack, …) | Composio | `COMPOSIO_API_KEY` |
+| **Tracing** (every chat run) | LangSmith | `LANGCHAIN_API_KEY` |
+| **Events** (chat.completed) | Inngest | `INNGEST_EVENT_KEY` |
+| **Outbound proxy** (for crawl) | Massive residential network | `MASSIVE_PROXY_URL` |
+| **LLM proxy** (optional) | Helicone | `HELICONE_API_KEY` |
 | **Markdown rendering** | react-markdown + remark-gfm (GFM tables, code, lists) | — |
+
+Every integration is **fully wired** (no stubs): tools (`web_search`, `web_crawl`,
+`memory_*`, `run_code`, `github`, `composio`) are advertised to each agent only
+when configured, while telemetry (LangSmith trace + Inngest event) fires
+automatically on every chat turn and the Massive proxy transparently wraps crawl
+requests.
 
 ### Managing keys
 

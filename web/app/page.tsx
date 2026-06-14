@@ -276,7 +276,13 @@ function ToolChip({ t }: { t: ToolEvent }) {
           ? "🧠 Saving to memory"
           : t.name === "run_code"
             ? "⚡ Running code"
-            : t.name;
+            : t.name === "web_crawl"
+              ? `🕷️ Reading: ${t.args?.url ?? ""}`
+              : t.name === "github"
+                ? `🐙 GitHub: ${t.args?.action ?? ""} ${t.args?.repo ?? ""}`
+                : t.name === "composio"
+                  ? `🤝 Composio: ${t.args?.action ?? ""}`
+                  : t.name;
   return (
     <details className="mb-1.5 rounded-lg border border-ink-700 bg-ink-800/60 text-xs">
       <summary className="flex cursor-pointer items-center gap-2 px-2.5 py-1.5 text-slate-400">

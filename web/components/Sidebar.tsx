@@ -75,6 +75,21 @@ export function Sidebar({
           <li className="flex items-center gap-2">
             <Dot on={!!status?.exec} /> Code execution
           </li>
+          <li className="flex items-center gap-2">
+            <Dot on={!!status?.github} /> GitHub
+          </li>
+          <li className="flex items-center gap-2">
+            <Dot on={!!status?.composio} /> Composio
+          </li>
+          <li className="flex items-center gap-2">
+            <Dot on={!!status?.observability.langchain} /> Tracing
+          </li>
+          <li className="flex items-center gap-2">
+            <Dot on={!!status?.events} /> Events
+          </li>
+          <li className="flex items-center gap-2">
+            <Dot on={!!status?.proxy} /> Proxy
+          </li>
         </ul>
         {status && !status.llm && (
           <p className="mt-2 text-[11px] leading-snug text-amber-400/80">

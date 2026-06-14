@@ -6,9 +6,18 @@ import { webSearch, searchConfigured } from "./search";
 import { crawlUrl, crawlConfigured } from "./crawl";
 import { memorySave, memorySearch, memoryConfigured } from "./memory";
 import { runCode, sandboxConfigured } from "./sandbox";
+import { githubCall, githubConfigured } from "./github";
+import { composioCall, composioConfigured } from "./composio";
 import type { Agent } from "./agents";
 
-export type ToolName = "web_search" | "web_crawl" | "memory_search" | "memory_save" | "run_code";
+export type ToolName =
+  | "web_search"
+  | "web_crawl"
+  | "memory_search"
+  | "memory_save"
+  | "run_code"
+  | "github"
+  | "composio";
 
 const SCHEMAS: Record<ToolName, any> = {
   web_search: {
@@ -82,6 +91,43 @@ const SCHEMAS: Record<ToolName, any> = {
       },
     },
   },
+  github: {
+    type: "function",
+    function: {
+      name: "github",
+      description: "Query GitHub: read a repo's metadata, read a file, list issues, or search code.",
+      parameters: {
+        type: "object",
+        properties: {
+          action: { type: "string", enum: ["get_repo", "get_file", "list_issues", "search_code"] },
+          repo: { type: "string", description: 'owner/name, e.g. "shenhao-stu/openclaw-agents".' },
+          path: { type: "string", description: "File path (for get_file)." },
+          ref: { type: "string", description: "Branch/commit (optional, for get_file)." },
+          state: { type: "string", description: "open|closed|all (for list_issues)." },
+          query: { type: "string", description: "Search terms (for search_code)." },
+        },
+        required: ["action"],
+      },
+    },
+  },
+  composio: {
+    type: "function",
+    function: {
+      name: "composio",
+      description: "Use external app integrations via Composio (Gmail, Slack, Notion, etc.). 'list' to discover available tools, 'execute' to run one by slug.",
+      parameters: {
+        type: "object",
+        properties: {
+          action: { type: "string", enum: ["list", "execute"] },
+          search: { type: "string", description: "Filter when listing tools." },
+          tool_slug: { type: "string", description: "The Composio tool slug to execute." },
+          arguments: { type: "object", description: "Arguments object for the tool." },
+          entity_id: { type: "string", description: "Composio entity/connection id (optional)." },
+        },
+        required: ["action"],
+      },
+    },
+  },
 };
 
 function toolAvailable(name: ToolName): boolean {
@@ -95,6 +141,10 @@ function toolAvailable(name: ToolName): boolean {
       return memoryConfigured();
     case "run_code":
       return sandboxConfigured();
+    case "github":
+      return githubConfigured();
+    case "composio":
+      return composioConfigured();
   }
 }
 
@@ -138,6 +188,10 @@ export async function executeTool(name: string, args: any): Promise<string> {
         if (r.text && !r.stdout) parts.push(`result:\n${r.text}`);
         return parts.join("\n\n") || "(no output)";
       }
+      case "github":
+        return await githubCall(args.action, args);
+      case "composio":
+        return await composioCall(args.action, args);
       default:
         return `Unknown tool: ${name}`;
     }

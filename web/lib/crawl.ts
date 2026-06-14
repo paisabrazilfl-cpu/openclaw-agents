@@ -4,6 +4,7 @@
 // compatible instances.
 
 import { env } from "./env";
+import { proxiedFetch } from "./net";
 
 export function crawlConfigured(): boolean {
   return Boolean(env.freecrawl);
@@ -18,7 +19,7 @@ export type CrawlResult = {
 export async function crawlUrl(url: string): Promise<CrawlResult> {
   if (!env.freecrawl) throw new Error("Crawl not configured (set FREECRAWL_API_KEY)");
   const base = env.freecrawlBase.replace(/\/$/, "");
-  const res = await fetch(`${base}/v1/scrape`, {
+  const res = await proxiedFetch(`${base}/v1/scrape`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -7,6 +7,7 @@ import {
   type Provider,
 } from "@/lib/providers";
 import { toolsForAgent, executeTool } from "@/lib/tools";
+import { RunTrace } from "@/lib/observability";
 import { env } from "@/lib/env";
 
 export const runtime = "nodejs";
@@ -49,6 +50,15 @@ export async function POST(req: NextRequest) {
     ...(payload.messages ?? []).map((m) => ({ role: m.role, content: m.content })),
   ];
 
+  const lastUser = [...(payload.messages ?? [])].reverse().find((m) => m.role === "user");
+  const trace = new RunTrace({
+    agent: agent.id,
+    model,
+    provider,
+    input: lastUser?.content ?? "",
+  });
+  const toolsUsed: string[] = [];
+
   const stream = new ReadableStream({
     async start(controller) {
       const send = (obj: unknown) =>
@@ -71,7 +81,9 @@ export async function POST(req: NextRequest) {
           const res = await llmFetch(provider, body);
           if (!res.ok || !res.body) {
             const detail = await res.text().catch(() => "");
-            send({ type: "error", error: `LLM error ${res.status}: ${detail.slice(0, 500)}` });
+            const error = `LLM error ${res.status}: ${detail.slice(0, 500)}`;
+            send({ type: "error", error });
+            void trace.finish("", error, toolsUsed);
             controller.close();
             return;
           }
@@ -83,9 +95,11 @@ export async function POST(req: NextRequest) {
           // No tool calls → this was the final answer.
           if (!toolCalls.length) {
             send({ type: "done" });
+            void trace.finish(content, undefined, toolsUsed);
             controller.close();
             return;
           }
+          for (const c of toolCalls) toolsUsed.push(c.name);
 
           // Record the assistant turn that requested the tools.
           messages.push({
@@ -113,10 +127,14 @@ export async function POST(req: NextRequest) {
           }
         }
 
-        send({ type: "error", error: `Stopped after ${MAX_TOOL_ROUNDS} tool rounds.` });
+        const capped = `Stopped after ${MAX_TOOL_ROUNDS} tool rounds.`;
+        send({ type: "error", error: capped });
+        void trace.finish("", capped, toolsUsed);
         controller.close();
       } catch (e: any) {
-        send({ type: "error", error: e?.message ?? String(e) });
+        const error = e?.message ?? String(e);
+        send({ type: "error", error });
+        void trace.finish("", error, toolsUsed);
         controller.close();
       }
     },
