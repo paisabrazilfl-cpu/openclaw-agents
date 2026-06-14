@@ -8,6 +8,9 @@
 - read, write, edit, exec
 - sessions_list, sessions_history, sessions_send
 - browser (for paper retrieval and trend monitoring)
+- freecrawl: scrape, crawl, crawl_status, map_site, extract
+  (fast self-hosted scraping/crawling via the FreeCrawl MCP server —
+  use for daily source monitoring, site maps, and structured digests)
 
 ## Session Management
 - Maintain a daily digest queue with paper summaries

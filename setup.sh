@@ -78,6 +78,7 @@ MODEL="${DEFAULT_MODEL}"
 MODEL_MAP=""
 DRY_RUN=false
 REQUIRE_MENTION=""
+FREECRAWL_URL="${FREECRAWL_API_URL:-http://localhost:8000}"
 
 while [[ $# -gt 0 ]]; do
   case $1 in
@@ -88,6 +89,7 @@ while [[ $# -gt 0 ]]; do
     --model)           MODEL="$2";           shift 2 ;;
     --model-map)       MODEL_MAP="$2";       shift 2 ;;
     --require-mention) REQUIRE_MENTION="$2"; shift 2 ;;
+    --freecrawl-url)   FREECRAWL_URL="$2";   shift 2 ;;
     --dry-run)         DRY_RUN=true;         shift ;;
     -h|--help)
       echo "Usage: ./setup.sh [OPTIONS]"
@@ -97,6 +99,7 @@ while [[ $# -gt 0 ]]; do
       echo "  --group-id ID          Default group ID for all agents"
       echo "  --group-map MAP        Per-agent group IDs (e.g. coder=oc_aaa,scout=oc_bbb)"
       echo "  --model MODEL          Default model"
+      echo "  --freecrawl-url URL    FreeCrawl API base URL for the MCP tool server"
       exit 0
       ;;
     *) error "Unknown option: $1"; exit 1 ;;
@@ -435,6 +438,21 @@ BJSON
         }
     ' "${OPENCLAW_CONFIG}" > "${tmp_file}"
   fi
+
+  # Register the FreeCrawl MCP server so agents (Surveyor, Scout) can
+  # scrape/crawl/map/extract via the FreeCrawl API.
+  step "Registering FreeCrawl MCP server (${FREECRAWL_URL})"
+  local fc_tmp
+  fc_tmp="$(mktemp)"
+  jq --arg url "${FREECRAWL_URL}" '
+    .mcpServers = (.mcpServers // {}) * {
+      "freecrawl": {
+        "command": "python",
+        "args": ["tools/freecrawl-mcp/server.py"],
+        "env": { "FREECRAWL_API_URL": $url }
+      }
+    }
+  ' "${tmp_file}" > "${fc_tmp}" && mv "${fc_tmp}" "${tmp_file}"
 
   if [[ "${DRY_RUN}" == true ]]; then
     cat "${tmp_file}"

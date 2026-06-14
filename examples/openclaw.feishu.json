@@ -243,5 +243,16 @@
         "groupChat": {
             "historyLimit": 50
         }
+    },
+    "mcpServers": {
+        "freecrawl": {
+            "command": "python",
+            "args": [
+                "tools/freecrawl-mcp/server.py"
+            ],
+            "env": {
+                "FREECRAWL_API_URL": "http://localhost:8000"
+            }
+        }
     }
 }
