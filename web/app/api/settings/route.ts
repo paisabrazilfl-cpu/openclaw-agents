@@ -21,6 +21,7 @@ function integrations() {
     { name: "Exa", category: "search", on: Boolean(env.exa) },
     { name: "SerpAPI", category: "search", on: Boolean(env.serpapi) },
     { name: "FreeCrawl", category: "crawl", on: Boolean(env.freecrawl) },
+    { name: "Steel (browser)", category: "browser", on: Boolean(env.steel) },
     { name: "Inngest", category: "events", on: Boolean(env.inngestEventKey) },
     { name: "E2B", category: "sandbox", on: Boolean(env.e2b) },
     { name: "Composio", category: "tools", on: Boolean(env.composio) },

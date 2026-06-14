@@ -52,6 +52,16 @@ export const SETTINGS_GROUPS: Group[] = [
     ],
   },
   {
+    id: "browser",
+    title: "Browser (Steel)",
+    emoji: "🧭",
+    description: "Real headless browser for JS-heavy pages and screenshots. Hosted (api.steel.dev) or self-hosted.",
+    fields: [
+      { name: "STEEL_API_KEY", label: "Steel API key", secret: true },
+      { name: "STEEL_BASE_URL", label: "Steel base URL", placeholder: "https://api.steel.dev" },
+    ],
+  },
+  {
     id: "memory",
     title: "Vector Memory",
     emoji: "🧠",

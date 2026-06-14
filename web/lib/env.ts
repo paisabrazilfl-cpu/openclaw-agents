@@ -38,6 +38,10 @@ export const env = {
   get freecrawl() { return s("FREECRAWL_API_KEY"); },
   get freecrawlBase() { return s("FREECRAWL_BASE_URL") || "https://api.freecrawl.dev"; },
 
+  // ── Browser automation (Steel) ─────────────────────────────────
+  get steel() { return s("STEEL_API_KEY"); },
+  get steelBase() { return s("STEEL_BASE_URL") || "https://api.steel.dev"; },
+
   // ── Code execution ─────────────────────────────────────────────
   get e2b() { return s("E2B_API_KEY"); },
 
@@ -61,6 +65,7 @@ export type IntegrationStatus = {
   llm: boolean;
   search: boolean;
   crawl: boolean;
+  browser: boolean;
   memory: boolean;
   exec: boolean;
   github: boolean;
@@ -77,6 +82,7 @@ export function integrationStatus(): IntegrationStatus {
     llm: Boolean(env.openrouter || env.openai || env.gemini || env.nvidia),
     search: Boolean(env.tavily || env.exa || env.serpapi),
     crawl: Boolean(env.freecrawl),
+    browser: Boolean(env.steel),
     memory: Boolean(env.pinecone && env.pineconeIndexHost && env.embeddings),
     exec: Boolean(env.e2b),
     github: Boolean(env.github),

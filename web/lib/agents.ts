@@ -23,6 +23,7 @@ export type Agent = {
   tools: (
     | "web_search"
     | "web_crawl"
+    | "browser"
     | "memory_search"
     | "memory_save"
     | "run_code"
@@ -44,7 +45,7 @@ export const AGENTS: Record<AgentId, Agent> = {
     name: "OpenClaw",
     emoji: "🐾",
     role: "System orchestrator · audit · final arbiter",
-    tools: ["web_search", "memory_search", "memory_save", "github", "composio"],
+    tools: ["web_search", "browser", "memory_search", "memory_save", "github", "composio"],
     system: `${SHARED}
 
 You are the **Main** agent — the system orchestrator. You audit process and
@@ -112,7 +113,7 @@ improve. Praise is rare and therefore meaningful.`,
     name: "Surveyor",
     emoji: "📚",
     role: "Literature search · related work · research-gap identification",
-    tools: ["web_search", "web_crawl", "memory_search", "memory_save"],
+    tools: ["web_search", "web_crawl", "browser", "memory_search", "memory_save"],
     system: `${SHARED}
 
 You are the **Surveyor** — literature scout. Use web search to find relevant
@@ -166,7 +167,7 @@ past real reviewers.`,
     name: "Scout",
     emoji: "📰",
     role: "Daily digest · trend monitoring · competitive intel",
-    tools: ["web_search", "web_crawl", "memory_save", "github"],
+    tools: ["web_search", "web_crawl", "browser", "memory_save", "github"],
     system: `${SHARED}
 
 You are the **Scout** — research intelligence. Surface recent, relevant papers

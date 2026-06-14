@@ -70,7 +70,9 @@ function ToolChip({ t }: { t: ToolEvent }) {
             ? "⚡ Running code"
             : t.name === "web_crawl"
               ? `🕷️ Reading: ${t.args?.url ?? ""}`
-              : t.name === "github"
+              : t.name === "browser"
+                ? `🧭 Browsing: ${t.args?.url ?? ""}`
+                : t.name === "github"
                 ? `🐙 GitHub: ${t.args?.action ?? ""} ${t.args?.repo ?? ""}`
                 : t.name === "composio"
                   ? `🤝 Composio: ${t.args?.action ?? ""}`

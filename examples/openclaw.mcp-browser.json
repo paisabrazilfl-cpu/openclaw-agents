@@ -1,0 +1,9 @@
+{
+  "//": "Example: give the OpenClaw agents browser control via Microsoft's Playwright MCP server. Merge `mcpServers` into your openclaw.json. Run `npx @playwright/mcp@latest` once to let it install browsers.",
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  }
+}

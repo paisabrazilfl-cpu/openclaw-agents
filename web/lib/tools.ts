@@ -8,11 +8,13 @@ import { memorySave, memorySearch, memoryConfigured } from "./memory";
 import { runCode, sandboxConfigured } from "./sandbox";
 import { githubCall, githubConfigured } from "./github";
 import { composioCall, composioConfigured } from "./composio";
+import { browserCall, browserConfigured } from "./browser";
 import type { Agent } from "./agents";
 
 export type ToolName =
   | "web_search"
   | "web_crawl"
+  | "browser"
   | "memory_search"
   | "memory_save"
   | "run_code"
@@ -91,6 +93,21 @@ const SCHEMAS: Record<ToolName, any> = {
       },
     },
   },
+  browser: {
+    type: "function",
+    function: {
+      name: "browser",
+      description: "Open a URL in a real headless browser (Steel) — runs JavaScript, returns the rendered page as markdown, or captures a screenshot. Use for JS-heavy pages or when web_crawl returns little.",
+      parameters: {
+        type: "object",
+        properties: {
+          action: { type: "string", enum: ["scrape", "screenshot"], description: "scrape rendered text or screenshot the page." },
+          url: { type: "string", description: "The page URL." },
+        },
+        required: ["action", "url"],
+      },
+    },
+  },
   github: {
     type: "function",
     function: {
@@ -136,6 +153,8 @@ function toolAvailable(name: ToolName): boolean {
       return searchConfigured();
     case "web_crawl":
       return crawlConfigured();
+    case "browser":
+      return browserConfigured();
     case "memory_search":
     case "memory_save":
       return memoryConfigured();
@@ -188,6 +207,8 @@ export async function executeTool(name: string, args: any): Promise<string> {
         if (r.text && !r.stdout) parts.push(`result:\n${r.text}`);
         return parts.join("\n\n") || "(no output)";
       }
+      case "browser":
+        return await browserCall(args.action, args);
       case "github":
         return await githubCall(args.action, args);
       case "composio":

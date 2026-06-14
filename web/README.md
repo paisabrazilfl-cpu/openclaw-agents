@@ -16,6 +16,7 @@ and tools.
 | **LLM chat** (streaming, tool-calling) | OpenRouter · OpenAI · Gemini · NVIDIA NIM | `OPENROUTER_API_KEY` (or any one) |
 | **Web search** (Surveyor/Scout/etc.) | Tavily → Exa → SerpAPI | `TAVILY_API_KEY` / `EXA_API_KEY` / `SERPAPI_API_KEY` |
 | **Web crawl** (read full pages) | FreeCrawl (Firecrawl-compatible) | `FREECRAWL_API_KEY` |
+| **Browser** (JS pages + screenshots) | Steel (`browser` tool) | `STEEL_API_KEY` — see [docs/browser-automation.md](docs/browser-automation.md) |
 | **Vector memory** (save/recall) | Pinecone + OpenAI embeddings | `PINECONE_API_KEY` + `PINECONE_INDEX_HOST` |
 | **Code execution** (Coder) | E2B sandbox | `E2B_API_KEY` |
 | **GitHub tool** (repos/files/issues/code) | GitHub REST API | `GITHUB_TOKEN` |
