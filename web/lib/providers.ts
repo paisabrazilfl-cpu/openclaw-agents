@@ -27,7 +27,20 @@ export const MODEL_CATALOG: ModelOption[] = [
   { provider: "openai", model: "gpt-4o", label: "GPT-4o · OpenAI" },
   { provider: "gemini", model: "gemini-2.0-flash", label: "Gemini 2.0 Flash · Google" },
   { provider: "gemini", model: "gemini-1.5-pro", label: "Gemini 1.5 Pro · Google" },
+  // ── NVIDIA NIM (integrate.api.nvidia.com) ──
   { provider: "nvidia", model: "meta/llama-3.1-70b-instruct", label: "Llama 3.1 70B · NVIDIA NIM" },
+  { provider: "nvidia", model: "meta/llama-3.1-8b-instruct", label: "Llama 3.1 8B · NVIDIA NIM" },
+  { provider: "nvidia", model: "openai/gpt-oss-120b", label: "GPT-OSS 120B · NVIDIA NIM" },
+  { provider: "nvidia", model: "moonshotai/kimi-k2.6", label: "Kimi K2.6 · NVIDIA NIM" },
+  { provider: "nvidia", model: "z-ai/glm-5.1", label: "GLM-5.1 · NVIDIA NIM" },
+  { provider: "nvidia", model: "deepseek-ai/deepseek-v4-pro", label: "DeepSeek V4 Pro · NVIDIA NIM" },
+  { provider: "nvidia", model: "nvidia/nemotron-3-ultra-550b-a55b", label: "Nemotron 3 Ultra 550B · NVIDIA NIM" },
+  { provider: "nvidia", model: "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning", label: "Nemotron 3 Nano Omni 30B · NVIDIA NIM" },
+  { provider: "nvidia", model: "mistralai/mistral-medium-3.5-128b", label: "Mistral Medium 3.5 · NVIDIA NIM" },
+  { provider: "nvidia", model: "mistralai/mistral-small-4-119b-2603", label: "Mistral Small 4 · NVIDIA NIM" },
+  { provider: "nvidia", model: "microsoft/phi-4-multimodal-instruct", label: "Phi-4 Multimodal · NVIDIA NIM" },
+  { provider: "nvidia", model: "nvidia/llama-3.1-nemotron-nano-vl-8b-v1", label: "Nemotron Nano VL 8B · NVIDIA NIM" },
+  { provider: "nvidia", model: "nvidia/ising-calibration-1-35b-a3b", label: "Ising Calibration 35B · NVIDIA NIM" },
 ];
 
 type ProviderConfig = { baseURL: string; headers: Record<string, string> };
