@@ -28,6 +28,7 @@ export const SETTINGS_GROUPS: Group[] = [
       { name: "OPENAI_API_KEY", label: "OpenAI", secret: true, placeholder: "sk-…" },
       { name: "GEMINI_API_KEY", label: "Google Gemini", secret: true, placeholder: "AIza… / AQ.…" },
       { name: "NVIDIA_API_KEY", label: "NVIDIA NIM", secret: true, placeholder: "nvapi-…" },
+      { name: "BITDEER_API_KEY", label: "Bitdeer", secret: true, help: "api-inference.bitdeer.ai" },
     ],
   },
   {

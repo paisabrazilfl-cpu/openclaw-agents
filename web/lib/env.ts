@@ -16,6 +16,7 @@ export const env = {
   get openai() { return s("OPENAI_API_KEY"); },
   get gemini() { return s("GEMINI_API_KEY"); },
   get nvidia() { return s("NVIDIA_API_KEY"); },
+  get bitdeer() { return s("BITDEER_API_KEY"); },
 
   // ── Observability (optional LLM proxy) ─────────────────────────
   get helicone() { return s("HELICONE_API_KEY"); },
@@ -72,7 +73,7 @@ export type IntegrationStatus = {
   composio: boolean;
   events: boolean;
   proxy: boolean;
-  providers: { openrouter: boolean; openai: boolean; gemini: boolean; nvidia: boolean };
+  providers: { openrouter: boolean; openai: boolean; gemini: boolean; nvidia: boolean; bitdeer: boolean };
   observability: { helicone: boolean; langchain: boolean };
 };
 
@@ -94,6 +95,7 @@ export function integrationStatus(): IntegrationStatus {
       openai: Boolean(env.openai),
       gemini: Boolean(env.gemini),
       nvidia: Boolean(env.nvidia),
+      bitdeer: Boolean(env.bitdeer),
     },
     observability: {
       helicone: Boolean(env.helicone),

@@ -13,6 +13,7 @@ function integrations() {
     { name: "OpenAI", category: "llm", on: Boolean(env.openai) },
     { name: "Google Gemini", category: "llm", on: Boolean(env.gemini) },
     { name: "NVIDIA NIM", category: "llm", on: Boolean(env.nvidia) },
+    { name: "Bitdeer", category: "llm", on: Boolean(env.bitdeer) },
     { name: "Helicone", category: "observability", on: Boolean(env.helicone) },
     { name: "LangSmith (LangChain)", category: "observability", on: Boolean(env.langchain) },
     { name: "Embeddings", category: "memory", on: Boolean(env.embeddings) },

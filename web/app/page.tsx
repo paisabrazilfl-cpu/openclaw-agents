@@ -18,6 +18,7 @@ import {
 import { ChatSidebar } from "@/components/ChatSidebar";
 import { Composer } from "@/components/Composer";
 import { MessageList } from "@/components/MessageList";
+import { ModelPicker } from "@/components/ModelPicker";
 
 export default function Page() {
   const [mounted, setMounted] = useState(false);
@@ -255,18 +256,13 @@ export default function Page() {
               </option>
             ))}
           </select>
-          <select
-            value={active?.model ?? ""}
-            onChange={(e) => patchActive((c) => ({ ...c, model: e.target.value, updatedAt: Date.now() }))}
-            className="ml-auto min-w-0 max-w-[40vw] truncate rounded-md border border-ink-700 bg-ink-950 px-2 py-1.5 text-xs text-slate-300 outline-none focus:border-claw-600 sm:max-w-none"
-          >
-            {models.length === 0 && <option>no models</option>}
-            {models.map((m) => (
-              <option key={`${m.provider}:${m.model}`} value={m.model}>
-                {m.label}
-              </option>
-            ))}
-          </select>
+          <div className="ml-auto min-w-0 max-w-[45vw] sm:max-w-xs">
+            <ModelPicker
+              models={models}
+              value={active?.model ?? ""}
+              onChange={(m) => patchActive((c) => ({ ...c, model: m, updatedAt: Date.now() }))}
+            />
+          </div>
           <Link href="/settings" title="Settings" className="shrink-0 rounded-md p-1.5 text-slate-400 hover:bg-ink-800">
             ⚙️
           </Link>
