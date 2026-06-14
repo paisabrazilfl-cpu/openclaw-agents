@@ -1,0 +1,62 @@
+# Render Blueprint for the OpenClaw Console (web/) MVP.
+# Secrets are NOT stored here — they are set in the Render dashboard / API
+# (sync: false). Use this to reproduce the service or wire up Blueprint deploys.
+services:
+  - type: web
+    name: openclaw-console
+    runtime: node
+    rootDir: web
+    plan: starter
+    region: oregon
+    branch: claude/api-integration-mvp-ui-849hx1
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    autoDeploy: true
+    envVars:
+      - key: DEFAULT_MODEL
+        value: openai/gpt-4o-mini
+      - key: MAX_TOKENS
+        value: "1024"
+      - key: APP_NAME
+        value: OpenClaw Console
+      - key: LANGCHAIN_PROJECT
+        value: openclaw-console
+      # ── Secrets: set in the Render dashboard (Environment tab) ──
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_EMBEDDINGS_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: NVIDIA_API_KEY
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: EXA_API_KEY
+        sync: false
+      - key: SERPAPI_API_KEY
+        sync: false
+      - key: FREECRAWL_API_KEY
+        sync: false
+      - key: FREECRAWL_BASE_URL
+        sync: false
+      - key: PINECONE_API_KEY
+        sync: false
+      - key: PINECONE_INDEX_HOST
+        sync: false
+      - key: E2B_API_KEY
+        sync: false
+      - key: COMPOSIO_API_KEY
+        sync: false
+      - key: HELICONE_API_KEY
+        sync: false
+      - key: LANGCHAIN_API_KEY
+        sync: false
+      - key: INNGEST_EVENT_KEY
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: MASSIVE_PROXY_URL
+        sync: false
