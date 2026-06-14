@@ -1,62 +1,80 @@
 import { NextRequest } from "next/server";
-import { readKeystore, setKeys, secretSource } from "@/lib/keystore";
-import { KNOWN_FIELDS, isSecretField } from "@/lib/settings-schema";
+import { listSecrets, setKeys, type SecretUpdate } from "@/lib/keystore";
+import { env } from "@/lib/env";
+import { KNOWN_FIELDS } from "@/lib/settings-schema";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-// Mask a value for display. Secrets become ••••1234; non-secrets are returned
-// in full so they can be edited (host, model name, namespace, etc.).
-function present(name: string, value: string) {
-  if (isSecretField(name)) {
-    const tail = value.slice(-4);
-    return { configured: true, masked: `••••${tail}` };
-  }
-  return { configured: true, value };
+// Integration catalog — derived live from env. Browser-safe (booleans only).
+function integrations() {
+  return [
+    { name: "OpenRouter", category: "llm", on: Boolean(env.openrouter) },
+    { name: "OpenAI", category: "llm", on: Boolean(env.openai) },
+    { name: "Google Gemini", category: "llm", on: Boolean(env.gemini) },
+    { name: "NVIDIA NIM", category: "llm", on: Boolean(env.nvidia) },
+    { name: "Helicone", category: "observability", on: Boolean(env.helicone) },
+    { name: "LangSmith (LangChain)", category: "observability", on: Boolean(env.langchain) },
+    { name: "Embeddings", category: "memory", on: Boolean(env.embeddings) },
+    { name: "Pinecone (vector memory)", category: "memory", on: Boolean(env.pinecone && env.pineconeIndexHost) },
+    { name: "Tavily", category: "search", on: Boolean(env.tavily) },
+    { name: "Exa", category: "search", on: Boolean(env.exa) },
+    { name: "SerpAPI", category: "search", on: Boolean(env.serpapi) },
+    { name: "FreeCrawl", category: "crawl", on: Boolean(env.freecrawl) },
+    { name: "Inngest", category: "events", on: Boolean(env.inngestEventKey) },
+    { name: "E2B", category: "sandbox", on: Boolean(env.e2b) },
+    { name: "Composio", category: "tools", on: Boolean(env.composio) },
+    { name: "GitHub", category: "tools", on: Boolean(env.github) },
+    { name: "Massive (proxy)", category: "network", on: Boolean(env.massiveProxyUrl) },
+  ];
 }
 
-// GET: report which fields are set, where they come from, and a masked preview.
-// Never returns full secret values.
+// GET: integration status + stored-secret names (no values, ever).
 export async function GET() {
-  const ks = readKeystore();
-  const fields: Record<string, any> = {};
+  const ints = integrations();
+  const stored = listSecrets(); // keystore entries (name + description)
+  const storedNames = new Set(stored.map((s) => s.name));
 
-  for (const name of KNOWN_FIELDS) {
-    const fromEnv = process.env[name];
-    const fromKs = ks[name];
-    const value = fromKs || fromEnv;
-    if (value) {
-      fields[name] = { ...present(name, value), source: secretSource(name) };
-    } else {
-      fields[name] = { configured: false };
-    }
-  }
+  // Known fields present via process.env (e.g. Render env) but not in keystore.
+  const envSecrets = [...KNOWN_FIELDS]
+    .filter((n) => !storedNames.has(n) && process.env[n])
+    .map((name) => ({ name, source: "env" as const }));
 
-  // Custom (non-schema) keys the user added via the "Other" free-form section.
-  const custom = Object.keys(ks)
-    .filter((k) => !KNOWN_FIELDS.has(k))
-    .map((k) => ({ name: k, ...present(k, ks[k]), source: "keystore" as const }));
+  const secrets = [
+    ...stored.map((s) => ({ name: s.name, description: s.description, source: "keystore" as const })),
+    ...envSecrets,
+  ].sort((a, b) => a.name.localeCompare(b.name));
 
-  return Response.json({ fields, custom });
+  return Response.json({
+    integrations: ints,
+    active: ints.filter((i) => i.on).length,
+    total: ints.length,
+    secrets,
+    knownFields: [...KNOWN_FIELDS].sort(),
+  });
 }
 
-// POST { updates: { NAME: value } } — empty value deletes. Saves to the
-// git-ignored keystore; takes effect immediately (no restart).
+// POST { upserts:[{name,value,description}], deletes:[name] } — write-only.
 export async function POST(req: NextRequest) {
-  let body: { updates?: Record<string, string | null> };
+  let body: {
+    upserts?: { name: string; value: string; description?: string }[];
+    deletes?: string[];
+  };
   try {
     body = await req.json();
   } catch {
     return Response.json({ error: "Invalid JSON" }, { status: 400 });
   }
-  if (!body.updates || typeof body.updates !== "object") {
-    return Response.json({ error: "Missing updates" }, { status: 400 });
+
+  const updates: Record<string, SecretUpdate> = {};
+  for (const u of body.upserts ?? []) {
+    if (u?.name && /^[A-Za-z0-9_.-]{1,128}$/.test(u.name) && u.value) {
+      updates[u.name] = { value: u.value, description: u.description };
+    }
   }
-  // Ignore obviously bad key names.
-  const clean: Record<string, string | null> = {};
-  for (const [k, v] of Object.entries(body.updates)) {
-    if (/^[A-Za-z0-9_.-]{1,128}$/.test(k)) clean[k] = v;
+  for (const name of body.deletes ?? []) {
+    if (name) updates[name] = { value: null };
   }
-  const keys = setKeys(clean);
+  const keys = setKeys(updates);
   return Response.json({ ok: true, count: keys.length });
 }

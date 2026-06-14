@@ -4,6 +4,7 @@ import {
   llmFetch,
   resolveProvider,
   type ChatMessage,
+  type ContentPart,
   type Provider,
 } from "@/lib/providers";
 import { toolsForAgent, executeTool } from "@/lib/tools";
@@ -16,7 +17,15 @@ export const dynamic = "force-dynamic";
 const MAX_TOOL_ROUNDS = 5;
 const encoder = new TextEncoder();
 
-type ClientMessage = { role: "user" | "assistant"; content: string };
+type ClientMessage = { role: "user" | "assistant"; content: string | ContentPart[] };
+
+// Flatten a (possibly multimodal) content value to plain text for tracing/titles.
+function asText(content: string | ContentPart[]): string {
+  if (typeof content === "string") return content;
+  return content
+    .map((p) => (p.type === "text" ? p.text : "[image]"))
+    .join(" ");
+}
 
 // Accumulate streamed tool_call deltas keyed by their index.
 type PartialToolCall = { id: string; name: string; args: string };
@@ -55,7 +64,7 @@ export async function POST(req: NextRequest) {
     agent: agent.id,
     model,
     provider,
-    input: lastUser?.content ?? "",
+    input: lastUser ? asText(lastUser.content) : "",
   });
   const toolsUsed: string[] = [];
 
