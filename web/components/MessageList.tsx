@@ -25,7 +25,7 @@ function Bubble({ m, busy }: { m: ChatMessage; busy: boolean }) {
                 // eslint-disable-next-line @next/next/no-img-element
                 <img key={a.id} src={a.dataUrl} alt={a.name} className="max-h-48 rounded-lg border border-ink-600" />
               ) : (
-                <span key={a.id} className="flex items-center gap-1.5 rounded-lg border border-ink-600 bg-ink-800 px-2 py-1 text-[11px] text-slate-300">
+                <span key={a.id} className="flex items-center gap-1.5 rounded-lg border border-ink-600 bg-ink-800 px-2 py-1 text-[11px] text-stone-300">
                   📄 {a.name}
                 </span>
               ),
@@ -46,12 +46,12 @@ function Bubble({ m, busy }: { m: ChatMessage; busy: boolean }) {
     <div className="flex gap-3">
       <span className="mt-0.5 text-xl leading-none">{agent.emoji}</span>
       <div className="min-w-0 flex-1">
-        <div className="mb-1 text-xs font-medium text-slate-500">{agent.name}</div>
+        <div className="mb-1 text-xs font-medium text-stone-500">{agent.name}</div>
         {m.tools?.map((t, i) => <ToolChip key={i} t={t} />)}
         {m.content ? (
           <Markdown>{m.content}</Markdown>
         ) : busy ? (
-          <div className="cursor-blink text-slate-500" />
+          <div className="cursor-blink text-stone-500" />
         ) : null}
       </div>
     </div>
@@ -81,12 +81,12 @@ function ToolChip({ t }: { t: ToolEvent }) {
                   : t.name;
   return (
     <details className="mb-1.5 rounded-lg border border-ink-700 bg-ink-800/60 text-xs">
-      <summary className="flex cursor-pointer items-center gap-2 px-2.5 py-1.5 text-slate-400">
+      <summary className="flex cursor-pointer items-center gap-2 px-2.5 py-1.5 text-stone-400">
         <span className={t.status === "running" ? "animate-pulse" : ""}>{label}</span>
-        <span className="ml-auto text-[10px] text-slate-600">{t.status}</span>
+        <span className="ml-auto text-[10px] text-stone-600">{t.status}</span>
       </summary>
       {t.result && (
-        <pre className="max-h-48 overflow-auto whitespace-pre-wrap border-t border-ink-700 p-2.5 text-[11px] text-slate-400">
+        <pre className="max-h-48 overflow-auto whitespace-pre-wrap border-t border-ink-700 p-2.5 text-[11px] text-stone-400">
           {t.result}
         </pre>
       )}

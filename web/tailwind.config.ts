@@ -9,17 +9,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Warm near-black neutrals (Claude dark theme)
         ink: {
-          950: "#0a0b10",
-          900: "#0f1117",
-          800: "#161922",
-          700: "#1e222e",
-          600: "#2a2f3d",
+          950: "#1a1714",
+          900: "#221f1b",
+          800: "#2c2925",
+          700: "#3a352f",
+          600: "#4b453d",
         },
+        // Claude / Anthropic coral-clay accent
         claw: {
-          400: "#7c9cff",
-          500: "#5b7cff",
-          600: "#4361ee",
+          400: "#e0a085",
+          500: "#d97757",
+          600: "#bd5d3c",
         },
       },
       fontFamily: {

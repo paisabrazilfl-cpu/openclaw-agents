@@ -45,7 +45,7 @@ export function ChatSidebar({
           <span className="text-sm font-semibold">OpenClaw</span>
         </div>
         {onClose && (
-          <button onClick={onClose} className="rounded-md px-2 py-1 text-slate-400 hover:bg-ink-800 lg:hidden">
+          <button onClick={onClose} className="rounded-md px-2 py-1 text-stone-400 hover:bg-ink-800 lg:hidden">
             ✕
           </button>
         )}
@@ -59,7 +59,7 @@ export function ChatSidebar({
         </button>
         <button
           onClick={() => setShowFleet((s) => !s)}
-          className="mt-2 flex w-full items-center justify-between rounded-lg border border-ink-700 px-3 py-1.5 text-xs text-slate-400 hover:bg-ink-800"
+          className="mt-2 flex w-full items-center justify-between rounded-lg border border-ink-700 px-3 py-1.5 text-xs text-stone-400 hover:bg-ink-800"
         >
           <span>🤖 New chat with agent…</span>
           <span>{showFleet ? "▴" : "▾"}</span>
@@ -76,7 +76,7 @@ export function ChatSidebar({
                 className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs hover:bg-ink-800"
               >
                 <span>{a.emoji}</span>
-                <span className="truncate text-slate-200">{a.name}</span>
+                <span className="truncate text-stone-200">{a.name}</span>
               </button>
             ))}
           </div>
@@ -84,17 +84,17 @@ export function ChatSidebar({
       </div>
 
       {/* History */}
-      <div className="mt-3 flex items-center justify-between px-4 text-[11px] font-medium uppercase tracking-wider text-slate-500">
+      <div className="mt-3 flex items-center justify-between px-4 text-[11px] font-medium uppercase tracking-wider text-stone-500">
         <span>Chats</span>
         {conversations.length > 0 && (
-          <button onClick={onClearAll} className="text-slate-600 hover:text-rose-400">
+          <button onClick={onClearAll} className="text-stone-600 hover:text-rose-400">
             clear all
           </button>
         )}
       </div>
       <nav className="mt-1 flex-1 space-y-0.5 overflow-y-auto px-2 pb-2">
         {conversations.length === 0 && (
-          <p className="px-3 py-4 text-xs text-slate-600">No chats yet.</p>
+          <p className="px-3 py-4 text-xs text-stone-600">No chats yet.</p>
         )}
         {conversations.map((c) => {
           const active = c.id === activeId;
@@ -120,7 +120,7 @@ export function ChatSidebar({
                   className="min-w-0 flex-1 rounded border border-ink-600 bg-ink-950 px-1.5 py-0.5 text-xs outline-none"
                 />
               ) : (
-                <button onClick={() => onSelect(c.id)} className="min-w-0 flex-1 truncate text-left text-sm text-slate-200">
+                <button onClick={() => onSelect(c.id)} className="min-w-0 flex-1 truncate text-left text-sm text-stone-200">
                   {c.title}
                 </button>
               )}
@@ -130,14 +130,14 @@ export function ChatSidebar({
                   setDraft(c.title);
                 }}
                 title="Rename"
-                className="shrink-0 text-slate-600 opacity-0 hover:text-slate-300 group-hover:opacity-100"
+                className="shrink-0 text-stone-600 opacity-0 hover:text-stone-300 group-hover:opacity-100"
               >
                 ✏️
               </button>
               <button
                 onClick={() => onDelete(c.id)}
                 title="Delete"
-                className="shrink-0 text-slate-600 opacity-0 hover:text-rose-400 group-hover:opacity-100"
+                className="shrink-0 text-stone-600 opacity-0 hover:text-rose-400 group-hover:opacity-100"
               >
                 🗑
               </button>
@@ -149,12 +149,12 @@ export function ChatSidebar({
       {/* Footer status + settings */}
       <div className="border-t border-ink-700 px-4 py-3">
         <div className="mb-2 flex items-center justify-between">
-          <span className="text-[11px] font-medium uppercase tracking-wider text-slate-500">Integrations</span>
+          <span className="text-[11px] font-medium uppercase tracking-wider text-stone-500">Integrations</span>
           <Link href="/settings" className="text-xs text-claw-400 hover:text-claw-500">
             ⚙️ Settings
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 text-xs text-slate-400">
+        <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 text-xs text-stone-400">
           <Stat on={!!status?.llm} label="LLM" />
           <Stat on={!!status?.search} label="Search" />
           <Stat on={!!status?.memory} label="Memory" />
@@ -170,7 +170,7 @@ export function ChatSidebar({
 function Stat({ on, label }: { on: boolean; label: string }) {
   return (
     <span className="flex items-center gap-1.5">
-      <span className={`h-2 w-2 rounded-full ${on ? "bg-emerald-400" : "bg-slate-600"}`} />
+      <span className={`h-2 w-2 rounded-full ${on ? "bg-emerald-400" : "bg-stone-600"}`} />
       {label}
     </span>
   );

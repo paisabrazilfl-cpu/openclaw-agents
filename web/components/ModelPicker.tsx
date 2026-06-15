@@ -35,7 +35,7 @@ function Dot({ s }: { s?: Status }) {
         ? "bg-rose-500"
         : state === "checking"
           ? "bg-amber-400 animate-pulse"
-          : "bg-slate-600";
+          : "bg-stone-600";
   const title =
     state === "alive"
       ? `alive${s?.ms ? ` · ${s.ms}ms` : ""}`
@@ -139,11 +139,11 @@ export function ModelPicker({
     <div className="relative min-w-0">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex min-w-0 items-center gap-1.5 rounded-md border border-ink-700 bg-ink-950 px-2 py-1.5 text-xs text-slate-300 outline-none hover:border-claw-600"
+        className="flex min-w-0 items-center gap-1.5 rounded-md border border-ink-700 bg-ink-950 px-2 py-1.5 text-xs text-stone-300 outline-none hover:border-claw-600"
       >
         <Dot s={current ? statuses[keyOf(current)] : undefined} />
         <span className="truncate">{current?.label ?? "Select model"}</span>
-        <span className="text-slate-600">▾</span>
+        <span className="text-stone-600">▾</span>
       </button>
 
       {open && (
@@ -151,20 +151,20 @@ export function ModelPicker({
           <div className="fixed inset-0 z-30" onClick={() => setOpen(false)} />
           <div className="absolute right-0 z-40 mt-1 max-h-[70vh] w-[min(22rem,88vw)] overflow-y-auto rounded-lg border border-ink-700 bg-ink-900 shadow-xl">
             <div className="sticky top-0 flex items-center justify-between gap-2 border-b border-ink-700 bg-ink-900 px-3 py-2">
-              <span className="text-[11px] text-slate-500">
+              <span className="text-[11px] text-stone-500">
                 {aliveCount > 0 ? `${aliveCount} alive` : "live status"}
               </span>
               <button
                 onClick={checkAll}
                 disabled={checkingAll}
-                className="rounded-md border border-ink-700 px-2 py-1 text-[11px] text-slate-300 hover:bg-ink-800 disabled:opacity-50"
+                className="rounded-md border border-ink-700 px-2 py-1 text-[11px] text-stone-300 hover:bg-ink-800 disabled:opacity-50"
               >
                 {checkingAll ? "checking…" : "⟳ Check all"}
               </button>
             </div>
             {groups.map((g) => (
               <div key={g.provider}>
-                <div className="px-3 pt-2 text-[10px] font-medium uppercase tracking-wider text-slate-600">
+                <div className="px-3 pt-2 text-[10px] font-medium uppercase tracking-wider text-stone-600">
                   {PROVIDER_LABEL[g.provider]}
                 </div>
                 {g.items.map((m) => {
@@ -183,7 +183,7 @@ export function ModelPicker({
                       }`}
                     >
                       <Dot s={st} />
-                      <span className="min-w-0 flex-1 truncate text-slate-200">
+                      <span className="min-w-0 flex-1 truncate text-stone-200">
                         {m.label.replace(/ · .*$/, "")}
                       </span>
                       {st?.state === "alive" && st.ms != null && (
@@ -195,7 +195,7 @@ export function ModelPicker({
                 })}
               </div>
             ))}
-            <div className="border-t border-ink-700 px-3 py-2 text-[10px] text-slate-600">
+            <div className="border-t border-ink-700 px-3 py-2 text-[10px] text-stone-600">
               🟢 alive · 🔴 down · ⚪ unchecked — double-tap a model to recheck it
             </div>
           </div>

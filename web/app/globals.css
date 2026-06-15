@@ -8,20 +8,20 @@ body {
 }
 
 body {
-  @apply bg-ink-950 text-slate-200 antialiased;
+  @apply bg-ink-950 text-stone-200 antialiased;
 }
 
 /* Thin scrollbars */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #2a2f3d transparent;
+  scrollbar-color: #3a352f transparent;
 }
 *::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 *::-webkit-scrollbar-thumb {
-  background: #2a2f3d;
+  background: #3a352f;
   border-radius: 4px;
 }
 
@@ -63,10 +63,10 @@ body {
   @apply bg-ink-950 border border-ink-600 rounded-lg p-3 my-3 overflow-x-auto;
 }
 .prose-chat pre code {
-  @apply bg-transparent text-slate-200 p-0;
+  @apply bg-transparent text-stone-200 p-0;
 }
 .prose-chat blockquote {
-  @apply border-l-2 border-claw-600 pl-3 my-3 text-slate-400 italic;
+  @apply border-l-2 border-claw-600 pl-3 my-3 text-stone-400 italic;
 }
 .prose-chat table {
   @apply w-full my-3 text-sm border-collapse;

@@ -239,7 +239,7 @@ export default function Page() {
         <header className="flex shrink-0 items-center gap-2 border-b border-ink-700 bg-ink-900 px-3 py-2.5 sm:px-4">
           <button
             onClick={() => setDrawer(true)}
-            className="rounded-md p-1.5 text-slate-400 hover:bg-ink-800 lg:hidden"
+            className="rounded-md p-1.5 text-stone-400 hover:bg-ink-800 lg:hidden"
             aria-label="Menu"
           >
             ☰
@@ -248,7 +248,7 @@ export default function Page() {
           <select
             value={active?.agentId ?? "main"}
             onChange={(e) => patchActive((c) => ({ ...c, agentId: e.target.value as AgentId, updatedAt: Date.now() }))}
-            className="max-w-[40vw] truncate rounded-md border border-ink-700 bg-ink-950 px-2 py-1.5 text-xs text-slate-200 outline-none focus:border-claw-600 sm:max-w-none"
+            className="max-w-[40vw] truncate rounded-md border border-ink-700 bg-ink-950 px-2 py-1.5 text-xs text-stone-200 outline-none focus:border-claw-600 sm:max-w-none"
           >
             {AGENT_LIST.map((a) => (
               <option key={a.id} value={a.id}>
@@ -263,7 +263,7 @@ export default function Page() {
               onChange={(m) => patchActive((c) => ({ ...c, model: m, updatedAt: Date.now() }))}
             />
           </div>
-          <Link href="/settings" title="Settings" className="shrink-0 rounded-md p-1.5 text-slate-400 hover:bg-ink-800">
+          <Link href="/settings" title="Settings" className="shrink-0 rounded-md p-1.5 text-stone-400 hover:bg-ink-800">
             ⚙️
           </Link>
         </header>
@@ -300,14 +300,14 @@ function EmptyState({ agent, status }: { agent: { emoji: string; name: string; r
   return (
     <div className="mx-auto mt-8 max-w-md text-center sm:mt-16">
       <div className="text-5xl">{agent.emoji}</div>
-      <h2 className="mt-3 text-lg font-semibold text-slate-200">{agent.name}</h2>
-      <p className="mt-1 text-sm text-slate-500">{agent.role}</p>
+      <h2 className="mt-3 text-lg font-semibold text-stone-200">{agent.name}</h2>
+      <p className="mt-1 text-sm text-stone-500">{agent.role}</p>
       {status && !status.llm ? (
         <p className="mx-auto mt-5 max-w-sm rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-300">
           No LLM provider is configured. Add a key in <Link href="/settings" className="underline">Settings</Link> to start chatting.
         </p>
       ) : (
-        <p className="mt-5 text-xs text-slate-600">Type below, attach files with 📎, or pick another agent.</p>
+        <p className="mt-5 text-xs text-stone-600">Type below, attach files with 📎, or pick another agent.</p>
       )}
     </div>
   );

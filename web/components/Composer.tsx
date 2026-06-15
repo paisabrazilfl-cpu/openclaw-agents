@@ -97,7 +97,7 @@ export function Composer({
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={a.dataUrl} alt={a.name} className="h-14 w-14 rounded-lg border border-ink-600 object-cover" />
                 ) : (
-                  <div className="flex h-14 max-w-[8rem] items-center gap-1.5 rounded-lg border border-ink-600 bg-ink-800 px-2 text-[11px] text-slate-300">
+                  <div className="flex h-14 max-w-[8rem] items-center gap-1.5 rounded-lg border border-ink-600 bg-ink-800 px-2 text-[11px] text-stone-300">
                     <span>📄</span>
                     <span className="truncate">{a.name}</span>
                   </div>
@@ -116,7 +116,7 @@ export function Composer({
           <button
             onClick={() => fileRef.current?.click()}
             title="Attach files"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-ink-700 text-slate-400 hover:bg-ink-800"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-ink-700 text-stone-400 hover:bg-ink-800"
           >
             📎
           </button>
@@ -153,7 +153,7 @@ export function Composer({
             {disabled ? "…" : "Send"}
           </button>
         </div>
-        <div className="mt-1 hidden text-center text-[10px] text-slate-600 sm:block">
+        <div className="mt-1 hidden text-center text-[10px] text-stone-600 sm:block">
           Enter to send · Shift+Enter for newline · 📎 images & text files
         </div>
       </div>
