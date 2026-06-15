@@ -83,6 +83,15 @@ export const SETTINGS_GROUPS: Group[] = [
     fields: [{ name: "E2B_API_KEY", label: "E2B", secret: true, placeholder: "e2b_…" }],
   },
   {
+    id: "tabular",
+    title: "Tabular ML (TabPFN-3)",
+    emoji: "📊",
+    description: "Coder runs TabPFN-3 on CSVs in the sandbox. Needs E2B + a one-time Prior Labs token.",
+    fields: [
+      { name: "TABPFN_TOKEN", label: "TabPFN token", secret: true, help: "From ux.priorlabs.ai/account (accept license)" },
+    ],
+  },
+  {
     id: "observability",
     title: "Observability",
     emoji: "📈",

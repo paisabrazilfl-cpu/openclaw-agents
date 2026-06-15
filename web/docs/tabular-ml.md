@@ -19,8 +19,10 @@ Also exposed directly at `POST /api/tabular` `{ csv, target?, task?, test_size? 
 
 ## Requirements & caveats
 
-- **Needs `E2B_API_KEY`** (the tool runs in the sandbox). It shows up as the
-  "TabPFN-3 (tabular ML)" integration, On whenever E2B is configured.
+- **Needs `E2B_API_KEY`** (the sandbox) **and `TABPFN_TOKEN`** (Prior Labs
+  license). One-time: register at https://ux.priorlabs.ai, accept the license,
+  copy your key from https://ux.priorlabs.ai/account, and add `TABPFN_TOKEN` in
+  Settings → Secrets Vault. The integration shows On once both are set.
 - **Slow first run:** the sandbox installs `tabpfn` (pulls torch) and downloads
   weights — expect a minute or more. Keep datasets small/medium for the MVP.
 - Non-numeric feature columns are factorized automatically; missing values → 0.

@@ -46,6 +46,10 @@ export const env = {
   // ── Code execution ─────────────────────────────────────────────
   get e2b() { return s("E2B_API_KEY"); },
 
+  // ── Tabular ML (TabPFN-3) ──────────────────────────────────────
+  // One-time license token from https://ux.priorlabs.ai/account
+  get tabpfnToken() { return s("TABPFN_TOKEN"); },
+
   // ── Automation / events / dev ──────────────────────────────────
   get composio() { return s("COMPOSIO_API_KEY"); },
   get inngestEventKey() { return s("INNGEST_EVENT_KEY"); },

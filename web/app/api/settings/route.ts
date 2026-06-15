@@ -25,7 +25,7 @@ function integrations() {
     { name: "Steel (browser)", category: "browser", on: Boolean(env.steel) },
     { name: "Inngest", category: "events", on: Boolean(env.inngestEventKey) },
     { name: "E2B", category: "sandbox", on: Boolean(env.e2b) },
-    { name: "TabPFN-3 (tabular ML)", category: "tabular", on: Boolean(env.e2b) },
+    { name: "TabPFN-3 (tabular ML)", category: "tabular", on: Boolean(env.e2b && env.tabpfnToken) },
     { name: "Composio", category: "tools", on: Boolean(env.composio) },
     { name: "GitHub", category: "tools", on: Boolean(env.github) },
     { name: "Massive (proxy)", category: "network", on: Boolean(env.massiveProxyUrl) },

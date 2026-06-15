@@ -7,9 +7,11 @@
 // this to users; don't use outputs for production/commercial decisions.
 
 import { runCode, sandboxConfigured } from "./sandbox";
+import { env } from "./env";
 
 export function tabularConfigured(): boolean {
-  return sandboxConfigured(); // needs the E2B sandbox
+  // Needs the E2B sandbox AND a Prior Labs license token to download weights.
+  return sandboxConfigured() && Boolean(env.tabpfnToken);
 }
 
 const MAX_CSV_CHARS = 500_000;
@@ -38,6 +40,9 @@ import subprocess, sys, json, base64, io
 # is ~750MB and overflows the disk). --no-cache-dir frees space too.
 subprocess.run([sys.executable,"-m","pip","install","-q","--no-cache-dir","--root-user-action=ignore","torch","--index-url","https://download.pytorch.org/whl/cpu"], check=False, capture_output=True)
 subprocess.run([sys.executable,"-m","pip","install","-q","--no-cache-dir","--root-user-action=ignore","tabpfn","scikit-learn","pandas"], check=False, capture_output=True)
+import os
+os.environ["TABPFN_TOKEN"] = ${JSON.stringify(env.tabpfnToken ?? "")}
+os.environ["TABPFN_ALLOW_CLI_INTERACTION"] = "False"
 import pandas as pd
 from sklearn.model_selection import train_test_split
 df = pd.read_csv(io.StringIO(base64.b64decode(${JSON.stringify(b64)}).decode()))
