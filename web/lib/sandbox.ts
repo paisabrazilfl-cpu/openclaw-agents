@@ -14,7 +14,11 @@ export type CodeResult = {
   error?: string;
 };
 
-export async function runCode(code: string, language = "python"): Promise<CodeResult> {
+export async function runCode(
+  code: string,
+  language = "python",
+  opts?: { timeoutMs?: number },
+): Promise<CodeResult> {
   if (!env.e2b) throw new Error("Code execution not configured (set E2B_API_KEY)");
 
   let Sandbox: any;
@@ -26,9 +30,10 @@ export async function runCode(code: string, language = "python"): Promise<CodeRe
     );
   }
 
-  const sbx = await Sandbox.create({ apiKey: env.e2b });
+  const timeoutMs = opts?.timeoutMs ?? 120_000;
+  const sbx = await Sandbox.create({ apiKey: env.e2b, timeoutMs });
   try {
-    const execution = await sbx.runCode(code, { language });
+    const execution = await sbx.runCode(code, { language, timeoutMs });
     return {
       stdout: (execution.logs?.stdout ?? []).join(""),
       stderr: (execution.logs?.stderr ?? []).join(""),

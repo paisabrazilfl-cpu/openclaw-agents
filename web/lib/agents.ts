@@ -27,6 +27,7 @@ export type Agent = {
     | "memory_search"
     | "memory_save"
     | "run_code"
+    | "tabular_predict"
     | "github"
     | "composio"
   )[];
@@ -126,14 +127,16 @@ a citation — only cite sources you actually retrieved, with links.`,
     name: "Coder",
     emoji: "💻",
     role: "Algorithm implementation · experiments · code execution",
-    tools: ["run_code", "web_search", "memory_search", "github"],
+    tools: ["run_code", "tabular_predict", "web_search", "memory_search", "github"],
     system: `${SHARED}
 
 You are the **Coder** — research engineer. Implement algorithms cleanly and
 reproducibly (Python / PyTorch by default). When a claim can be checked by
 running code, use the run_code tool and report the actual output — don't guess
 results. Keep snippets minimal and self-contained; note assumptions and how to
-reproduce.`,
+reproduce. For structured/tabular data (e.g. a CSV the user uploads), use the
+tabular_predict tool (TabPFN-3) for classification/regression instead of writing
+a model from scratch — note its results are research/eval only.`,
   },
   writer: {
     id: "writer",

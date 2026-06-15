@@ -68,6 +68,8 @@ function ToolChip({ t }: { t: ToolEvent }) {
           ? "🧠 Saving to memory"
           : t.name === "run_code"
             ? "⚡ Running code"
+            : t.name === "tabular_predict"
+            ? `📊 TabPFN: ${t.args?.task ?? "classification"}`
             : t.name === "web_crawl"
               ? `🕷️ Reading: ${t.args?.url ?? ""}`
               : t.name === "browser"

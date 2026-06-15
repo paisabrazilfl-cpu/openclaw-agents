@@ -21,6 +21,7 @@ const CAT_COLOR: Record<string, string> = {
   crawl: "bg-teal-500/15 text-teal-300",
   events: "bg-pink-500/15 text-pink-300",
   sandbox: "bg-orange-500/15 text-orange-300",
+  tabular: "bg-lime-500/15 text-lime-300",
   tools: "bg-indigo-500/15 text-indigo-300",
   network: "bg-rose-500/15 text-rose-300",
 };

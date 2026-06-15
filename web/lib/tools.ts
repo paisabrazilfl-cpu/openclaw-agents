@@ -9,6 +9,7 @@ import { runCode, sandboxConfigured } from "./sandbox";
 import { githubCall, githubConfigured } from "./github";
 import { composioCall, composioConfigured } from "./composio";
 import { browserCall, browserConfigured } from "./browser";
+import { runTabular, tabularConfigured } from "./tabular";
 import type { Agent } from "./agents";
 
 export type ToolName =
@@ -18,6 +19,7 @@ export type ToolName =
   | "memory_search"
   | "memory_save"
   | "run_code"
+  | "tabular_predict"
   | "github"
   | "composio";
 
@@ -108,6 +110,23 @@ const SCHEMAS: Record<ToolName, any> = {
       },
     },
   },
+  tabular_predict: {
+    type: "function",
+    function: {
+      name: "tabular_predict",
+      description: "Train & evaluate TabPFN-3 (a tabular foundation model) on a CSV in the sandbox — classification or regression. Returns accuracy/R² + sample predictions. Use for structured/tabular data (e.g. an uploaded CSV). Research/eval only (non-commercial license).",
+      parameters: {
+        type: "object",
+        properties: {
+          csv: { type: "string", description: "The dataset as CSV text, including a header row." },
+          target: { type: "string", description: "Name of the target/label column (default: last column)." },
+          task: { type: "string", enum: ["classification", "regression"], description: "Default classification." },
+          test_size: { type: "number", description: "Test split fraction 0-1 (default 0.25)." },
+        },
+        required: ["csv"],
+      },
+    },
+  },
   github: {
     type: "function",
     function: {
@@ -160,6 +179,8 @@ function toolAvailable(name: ToolName): boolean {
       return memoryConfigured();
     case "run_code":
       return sandboxConfigured();
+    case "tabular_predict":
+      return tabularConfigured();
     case "github":
       return githubConfigured();
     case "composio":
@@ -209,6 +230,8 @@ export async function executeTool(name: string, args: any): Promise<string> {
       }
       case "browser":
         return await browserCall(args.action, args);
+      case "tabular_predict":
+        return await runTabular(args);
       case "github":
         return await githubCall(args.action, args);
       case "composio":
