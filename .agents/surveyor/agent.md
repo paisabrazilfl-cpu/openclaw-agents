@@ -8,6 +8,9 @@
 - read, write, edit, exec
 - sessions_list, sessions_history, sessions_send
 - browser (for paper retrieval)
+- freecrawl: scrape, crawl, crawl_status, map_site, extract
+  (fast self-hosted scraping/crawling via the FreeCrawl MCP server —
+  prefer over `browser` for bulk paper/page retrieval and structured extraction)
 
 ## Session Management
 - Maintain a curated paper database with tags and relevance scores

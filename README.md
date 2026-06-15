@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/OpenClaw-Multi--Agent-blue?style=for-the-badge" alt="OpenClaw">
   <br/>
-  <img src="https://img.shields.io/badge/version-2.2.0-brightgreen?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/version-2.3.0-brightgreen?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License">
   <img src="https://img.shields.io/badge/agents-9-orange?style=flat-square" alt="Agents">
   <img src="https://img.shields.io/badge/channels-feishu%20%7C%20whatsapp%20%7C%20telegram%20%7C%20discord-purple?style=flat-square" alt="Channels">
@@ -503,6 +503,8 @@ openclaw-agents/
 │   ├── openclaw.feishu.json          # Feishu config example
 │   ├── openclaw.whatsapp.json        # WhatsApp config example
 │   └── openclaw.telegram.json        # Telegram config example
+├── tools/
+│   └── freecrawl-mcp/                # 🕷️ FreeCrawl MCP tool server
 └── .agents/
     ├── planner/                      # 🧠 soul.md + agent.md + user.md
     ├── ideator/                      # 💡 soul.md + agent.md + user.md
@@ -521,6 +523,36 @@ openclaw-agents/
 
 ---
 
+## 🕷️ Integrations
+
+### FreeCrawl (web scraping & crawling)
+
+The agents ship with a built-in [FreeCrawl](https://github.com/paisabrazilfl-cpu/freecrawl)
+integration — a self-hosted, Firecrawl-compatible web crawler — exposed to the
+fleet as an **MCP tool server**. The 📚 **Surveyor** and 📰 **Scout** agents use
+it for fast paper/page retrieval, site mapping, and structured extraction
+instead of relying solely on the raw `browser` tool.
+
+**Tools:** `scrape` · `crawl` · `crawl_status` · `map_site` · `extract`
+
+`setup.sh` registers it automatically in `openclaw.json` under `mcpServers`.
+Point it at a running FreeCrawl deployment:
+
+```bash
+./setup.sh --freecrawl-url https://your-freecrawl.onrender.com
+```
+
+The server lives in [`tools/freecrawl-mcp/`](tools/freecrawl-mcp) — see its
+[README](tools/freecrawl-mcp/README.md) for configuration details. To run
+FreeCrawl locally:
+
+```bash
+git clone https://github.com/paisabrazilfl-cpu/freecrawl.git
+cd freecrawl && docker compose up   # API on http://localhost:8000
+```
+
+---
+
 ## 🔧 CLI Reference
 
 ### Setup Script Flags
@@ -534,6 +566,7 @@ openclaw-agents/
 | `--model` | Default LLM model for all agents | `zai/glm-5` |
 | `--model-map` | Per-agent model overrides (`id=model,...`) | None |
 | `--require-mention` | Require @mention to respond (`true`/`false`) | `true` |
+| `--freecrawl-url` | FreeCrawl API base URL for the MCP tool server | `http://localhost:8000` |
 | `--skip-bindings` | Skip channel binding setup | `false` |
 | `--dry-run` | Preview commands without executing | `false` |
 | `-h, --help` | Show help | — |

@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2026-06-14
+
+### Added
+- 🕷️ **FreeCrawl integration**: New `tools/freecrawl-mcp/` MCP server exposes the FreeCrawl API (`scrape`, `crawl`, `crawl_status`, `map_site`, `extract`) to the fleet.
+- 🔗 `setup.sh` now registers the FreeCrawl MCP server in `openclaw.json` under `mcpServers`, configurable via the new `--freecrawl-url` flag.
+- 📚📰 Surveyor and Scout agents now list the `freecrawl` tools for fast scraping/crawling and structured extraction.
+- Added the `mcpServers.freecrawl` block to the local and Feishu config examples.
+
 ## [2.2.0] - 2026-03-02
 
 ### Added
